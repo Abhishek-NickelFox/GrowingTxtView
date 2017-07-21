@@ -66,6 +66,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewWillAppear(animated)
 //        self.navigationController?.navigationBar.isTranslucent = false
     }
+	
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		self.moveTableView()
+	}
     
     //========================================================================================================================================
     // TEXT VIEW DELEGATE
