@@ -119,18 +119,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func moveTableView() {
-        
-//        if (self.tableView.contentSize.height > self.tableView.frame.size.height)
-//        {
-//            let offSet = CGPoint(x: 0, y: self.tableView.contentSize.height - self.tableView.frame.size.height)
-//            self.tableView.setContentOffset(offSet, animated: true)
-//        }
-        let indexPath = IndexPath(row: (tableList?.count)! - 1, section: 0) //self.tableView.numberOfRows(inSection: 0) - 1//
+        let indexPath = IndexPath(row: (tableList?.count)! - 1, section: 0)
         self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
     }
     
     func sendMethod() {
-//        guard txtView.t ext.isEmpty else { return }
         tableList?.append(txtView.text)
         tableView.reloadData()
         
