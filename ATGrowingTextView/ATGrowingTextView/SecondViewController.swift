@@ -48,9 +48,18 @@ class SecondViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	@IBAction func buttonAction(_ sender: Any) {
 		if txtView.text.isEmpty { return }
 		tableList.append(txtView.text)
-		self.tblView.reloadData()
+		
+//		tblView.reloadData()
+		
+		tblView.beginUpdates()
+		let indexPath = IndexPath(row: tableList.count - 1, section: 0)
+		tblView.insertRows(at: [indexPath], with: UITableViewRowAnimation.bottom)
+		tblView.endUpdates()
+		
 		txtView.text = ""
-		self.textViewDidChange(self.txtView)
+		txtHeightConstraint.constant = 50.0
+		self.view.layoutIfNeeded()
+		self.moveTableView()
 	}
 
 }
@@ -62,24 +71,14 @@ extension SecondViewController {
 	//========================================================================================================================================
 	
 	func textViewDidChange(_ textView: UITextView) {
-	
 		var height:CGFloat = textView.contentSize.height
-//		print("HEIGHT \(height)")
-//		if height >= 117.0 {
-//			txtHeightConstraint.constant = 117.0
-//		} else if height >= 50.0 {
-//			txtHeightConstraint.constant = height
-//		} else {
-//			txtHeightConstraint.constant = 50.0
-//		}
-
 		if height >= 117.0 {
 			height = 117.0
 		} else if height < 50.0 {
 			height = 50.0
 		}
 		
-		if height != txtHeightConstraint.constant { // AVOIDING MULTIPLE CALL
+		if height != txtHeightConstraint.constant {
 			txtHeightConstraint.constant = height
 			self.view.layoutIfNeeded()
 			self.moveTableView()
