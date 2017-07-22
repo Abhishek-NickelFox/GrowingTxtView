@@ -28,7 +28,7 @@ class SecondViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		self.txtView.delegate = self
 		self.tblView.dataSource = self
 		self.tblView.delegate = self
-		tableList = ["12","13","14"]
+		tableList = ["12","13","14","12","13","14","12","13","14"]
 		
 		NotificationCenter.default.addObserver(self,
 		                                       selector: #selector(keyBoardWillShow(notification:)),
@@ -49,7 +49,6 @@ class SecondViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		if txtView.text.isEmpty { return }
 		tableList.append(txtView.text)
 		self.tblView.reloadData()
-		self.moveTableView()
 		txtView.text = ""
 		self.textViewDidChange(self.txtView)
 	}
@@ -64,19 +63,26 @@ extension SecondViewController {
 	
 	func textViewDidChange(_ textView: UITextView) {
 	
-		let height = textView.contentSize.height
-		print("HEIGHT \(height)")
-		self.moveTableView()
-		if height >= 117.0 {
-			txtHeightConstraint.constant = 117.0
-		} else if height >= 50.0 {
-			txtHeightConstraint.constant = height
-		} else {
-			txtHeightConstraint.constant = 50.0
-		}
+		var height:CGFloat = textView.contentSize.height
+//		print("HEIGHT \(height)")
+//		if height >= 117.0 {
+//			txtHeightConstraint.constant = 117.0
+//		} else if height >= 50.0 {
+//			txtHeightConstraint.constant = height
+//		} else {
+//			txtHeightConstraint.constant = 50.0
+//		}
 
-		UIView.animate(withDuration: CATransaction.animationDuration()) {
+		if height >= 117.0 {
+			height = 117.0
+		} else if height < 50.0 {
+			height = 50.0
+		}
+		
+		if height != txtHeightConstraint.constant { // AVOIDING MULTIPLE CALL
+			txtHeightConstraint.constant = height
 			self.view.layoutIfNeeded()
+			self.moveTableView()
 		}
 	}
 	
