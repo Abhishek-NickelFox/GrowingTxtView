@@ -66,7 +66,7 @@ extension SecondViewController {
 	
 		let height = textView.contentSize.height
 		print("HEIGHT \(height)")
-		
+		self.moveTableView()
 		if height >= 117.0 {
 			txtHeightConstraint.constant = 117.0
 		} else if height >= 50.0 {
@@ -75,12 +75,9 @@ extension SecondViewController {
 			txtHeightConstraint.constant = 50.0
 		}
 
-		UIView.animate(withDuration: CATransaction.animationDuration(), animations: {
+		UIView.animate(withDuration: CATransaction.animationDuration()) {
 			self.view.layoutIfNeeded()
-		}, completion: { (flag) in
-			self.moveTableView()
-		})
-		
+		}
 	}
 	
 	func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -121,11 +118,7 @@ extension SecondViewController {
 		let userInfo = notification.userInfo!
 		let keyValue = userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue
 		keyboardFrame = keyValue.cgRectValue
-		
 		self.bottomContraint.constant = self.view.frame.size.height - (keyboardFrame?.origin.y)!
-		
-		CATransaction.animationDuration()
-		
 		UIView.animate(withDuration: CATransaction.animationDuration(), animations: {
 			self.view.layoutIfNeeded()
 		}) { (flag) in
