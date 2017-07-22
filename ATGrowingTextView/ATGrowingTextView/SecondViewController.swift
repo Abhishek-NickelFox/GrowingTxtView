@@ -131,10 +131,11 @@ extension SecondViewController {
 	}
 	
 	func keyBoardWillHide(notification: Notification) {
-		
 		self.bottomContraint.constant = 0
 		UIView.animate(withDuration: CATransaction.animationDuration(), animations: {
 			self.view.layoutIfNeeded()
-		}, completion: nil)
+		}) { (flag) in
+			self.moveTableView()
+		}
 	}
 }
