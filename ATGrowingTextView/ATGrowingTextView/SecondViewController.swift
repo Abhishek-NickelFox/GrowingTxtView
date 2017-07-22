@@ -8,6 +8,10 @@
 
 import UIKit
 
+class NewCell: UITableViewCell {
+	@IBOutlet weak var titleLabel: UILabel!
+}
+
 class SecondViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate {
 
 	@IBOutlet weak var tblView: UITableView!
@@ -24,7 +28,7 @@ class SecondViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		self.txtView.delegate = self
 		self.tblView.dataSource = self
 		self.tblView.delegate = self
-		tableList = ["12","13","14","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","13","13","13"]
+		tableList = ["12","13","14"]
 		
 		NotificationCenter.default.addObserver(self,
 		                                       selector: #selector(keyBoardWillShow(notification:)),
@@ -44,6 +48,7 @@ class SecondViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	@IBAction func buttonAction(_ sender: Any) {
 		if txtView.text.isEmpty { return }
 		tableList.append(txtView.text)
+		self.tblView.reloadData()
 	}
 
 }
@@ -66,10 +71,13 @@ extension SecondViewController {
 		} else {
 			txtHeightConstraint.constant = 50.0
 		}
-		
-		UIView.animate(withDuration: CATransaction.animationDuration()) {
+
+		UIView.animate(withDuration: CATransaction.animationDuration(), animations: {
 			self.view.layoutIfNeeded()
-		}
+		}, completion: { (flag) in
+			self.moveTableView()
+		})
+		
 	}
 	
 	func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -88,7 +96,7 @@ extension SecondViewController {
 	//========================================================================================================================================
 	
 	func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-		return 66
+		return 66.0
 	}
 	
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -100,9 +108,9 @@ extension SecondViewController {
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let tableCell = tableView.dequeueReusableCell(withIdentifier: "TableCell2")!
-		tableCell.textLabel?.text = tableList[indexPath.row]
-		return tableCell
+		let cell = tableView.dequeueReusableCell(withIdentifier: "TableCell2") as! NewCell
+		cell.titleLabel?.text = tableList[indexPath.row]
+		return cell
 	}
 	
 	func keyBoardWillShow(notification: Notification) {
