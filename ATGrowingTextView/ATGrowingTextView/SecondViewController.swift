@@ -49,6 +49,9 @@ class SecondViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		if txtView.text.isEmpty { return }
 		tableList.append(txtView.text)
 		self.tblView.reloadData()
+		self.moveTableView()
+		txtView.text = ""
+		self.textViewDidChange(self.txtView)
 	}
 
 }
